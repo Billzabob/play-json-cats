@@ -1,28 +1,44 @@
 package com.iravid.playjsoncats
 
-import cats.data.NonEmptyList
-import com.iravid.playjsoncats.JsResultInstances._
+import cats.data.{ Chain, NonEmptyChain, NonEmptyList, NonEmptyVector }
 import play.api.libs.json.Reads
-import play.api.libs.json.{ Json, JsArray, JsError, JsResult, JsValue, Writes }
+import play.api.libs.json._
 
 object NonEmptyListInstances extends NonEmptyListInstances
 trait NonEmptyListInstances {
-  implicit def nonEmptyListReads[A: Reads]: Reads[NonEmptyList[A]] = new Reads[NonEmptyList[A]] {
-    override def reads(json: JsValue): JsResult[NonEmptyList[A]] = json match {
-      case JsArray(values) =>
-        values.toList match {
-          case head :: tail => NonEmptyList(head, tail).traverse(_.validate[A])
-          case Nil          => JsError("Expected a NonEmptyList but got an empty list")
-        }
-      case other =>
-        JsError(s"Expected an array but got $other")
-    }
-  }
-
+  implicit def nonEmptyListReads[A: Reads]: Reads[NonEmptyList[A]] =
+    Reads
+      .of[List[A]]
+      .collect(JsonValidationError("error.expected.nonempty.jsarray"))(
+          Function.unlift(NonEmptyList.fromList))
   implicit def nonEmptyListWrites[A: Writes]: Writes[NonEmptyList[A]] =
-    new Writes[NonEmptyList[A]] {
-      override def writes(nel: NonEmptyList[A]): JsValue = Json.toJson(nel.toList)
-    }
+    Writes.of[List[A]].contramap(_.toList)
+}
 
-  // TODO: Write instances for Chain, NonEmptyChain, NonEmptyVector, etc.
+object ChainInstances extends ChainInstances
+trait ChainInstances {
+  implicit def chainReads[A: Reads]: Reads[Chain[A]] = Reads.of[List[A]].map(Chain.fromSeq)
+  implicit def chainWrites[A: Writes]: Writes[Chain[A]] = Writes.of[List[A]].contramap(_.toList)
+}
+
+object NonEmptyChainInstances extends NonEmptyChainInstances
+trait NonEmptyChainInstances extends ChainInstances {
+  implicit def nonEmptyChainReads[A: Reads]: Reads[NonEmptyChain[A]] =
+    Reads
+      .of[Chain[A]]
+      .collect(JsonValidationError("error.expected.nonempty.jsarray"))(
+          Function.unlift(NonEmptyChain.fromChain))
+  implicit def nonEmptyChainWrites[A: Writes]: Writes[NonEmptyChain[A]] =
+    Writes.of[Chain[A]].contramap(_.toChain)
+}
+
+object NonEmptyVectorInstances extends NonEmptyVectorInstances
+trait NonEmptyVectorInstances {
+  implicit def nonEmptyVectorReads[A: Reads]: Reads[NonEmptyVector[A]] =
+    Reads
+      .of[Vector[A]]
+      .collect(JsonValidationError("error.expected.nonempty.jsarray"))(
+          Function.unlift(NonEmptyVector.fromVector))
+  implicit def nonEmptyVectorWrites[A: Writes]: Writes[NonEmptyVector[A]] =
+    Writes.of[Vector[A]].contramap(_.toVector)
 }
