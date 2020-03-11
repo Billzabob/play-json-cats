@@ -23,4 +23,6 @@ trait NonEmptyListInstances {
     new Writes[NonEmptyList[A]] {
       override def writes(nel: NonEmptyList[A]): JsValue = Json.toJson(nel.toList)
     }
+
+  // TODO: Write instances for Chain, NonEmptyChain, NonEmptyVector, etc.
 }

@@ -3,12 +3,12 @@ lazy val root = (project in file("."))
     organization := "com.iravid",
     name := "play-json-cats",
     version := "1.1.0",
-    scalaVersion := "2.11.12",
-    crossScalaVersions := Seq("2.11.12", "2.12.10", "2.13.1"),
+    scalaVersion := "2.13.1",
+    crossScalaVersions := Seq("2.12.10", "2.13.1"),
     libraryDependencies ++= Seq(
-      "org.typelevel"     %% "cats-core" % "2.0.0",
-      "com.typesafe.play" %% "play-json" % "2.7.4",
-      "org.typelevel"     %% "cats-laws" % "2.0.0" % "test",
+      "org.typelevel"     %% "cats-core" % "2.1.1",
+      "com.typesafe.play" %% "play-json" % "2.8.1",
+      "org.typelevel"     %% "cats-laws" % "2.1.1" % "test",
       "org.typelevel"     %% "discipline-scalatest" % "1.0.1" % "test",
       "org.scalatest"     %% "scalatest" % "3.1.1" % "test"
     ),
