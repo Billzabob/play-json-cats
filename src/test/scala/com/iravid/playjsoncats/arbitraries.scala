@@ -58,8 +58,8 @@ object Arbitraries {
       case JsString(s)  => Cogen.perturb(seed, s)
       case JsBoolean(b) => Cogen.perturb(seed, b)
       case JsNumber(n)  => Cogen.perturb(seed, n)
-      case JsArray(vs)  => Cogen.perturb(seed, vs)
-      case o: JsObject  => Cogen.perturb(seed, o.fields)
+      case JsArray(vs)  => Cogen.perturb(seed, vs.toList)
+      case o: JsObject  => Cogen.perturb(seed, o.fields.toList)
       case JsNull       => Cogen.perturb(seed, ())
     }
   }

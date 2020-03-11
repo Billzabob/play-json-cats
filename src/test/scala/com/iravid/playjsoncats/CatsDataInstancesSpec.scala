@@ -1,10 +1,10 @@
 package com.iravid.playjsoncats
 
 import cats.data.NonEmptyList
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 import play.api.libs.json.{ Json, JsError, JsSuccess }
 
-class CatsDataInstancesSpec extends FunSuite with NonEmptyListInstances {
+class CatsDataInstancesSpec extends AnyFunSuite with NonEmptyListInstances {
 
   test("Reading an empty list as a NonEmptyList should fail to parse") {
     val result = Json.parse("[]").validate[NonEmptyList[String]]

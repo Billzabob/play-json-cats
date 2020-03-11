@@ -5,7 +5,6 @@ import cats.{ Applicative, ApplicativeError, Eval, Monad, MonadError, Traverse }
 import play.api.libs.json.{ JsError, JsResult, JsSuccess }
 
 import scala.annotation.tailrec
-import scala.language.higherKinds
 
 object JsResultInstances extends JsResultInstances
 trait JsResultInstances extends JsResultInstances0 with JsResultInstances1

@@ -1,15 +1,15 @@
 package com.iravid.playjsoncats
 
 import cats.kernel.laws.discipline.MonoidTests
-import org.scalatest.FunSuite
-import org.typelevel.discipline.scalatest.Discipline
+import org.scalatest.funsuite.AnyFunSuite
+import org.typelevel.discipline.scalatest.FunSuiteDiscipline
 import cats.{ Monoid, Semigroup }
 import play.api.libs.json._
 import JsObjectInstances._
 import JsArrayInstances._
 import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
 
-class JsValueInstancesSpec extends FunSuite with Discipline with ScalaCheckDrivenPropertyChecks {
+class JsValueInstancesSpec extends AnyFunSuite with FunSuiteDiscipline with ScalaCheckDrivenPropertyChecks {
   import Arbitraries._
 
   checkAll("JsObject", MonoidTests[JsObject].monoid)

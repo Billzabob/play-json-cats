@@ -1,21 +1,21 @@
 package com.iravid.playjsoncats
 
-import org.scalatest.FunSuite
-import org.typelevel.discipline.scalatest.Discipline
+import org.scalatest.funsuite.AnyFunSuite
+import org.typelevel.discipline.scalatest.FunSuiteDiscipline
 import cats.laws.discipline._
 import cats.kernel.instances.all._
 import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
 import play.api.libs.json.{ Format, Reads, Writes }
 
 class FormatInstancesSpec
-    extends FunSuite with Discipline with ScalaCheckDrivenPropertyChecks with FormatInstances {
+    extends AnyFunSuite with FunSuiteDiscipline with ScalaCheckDrivenPropertyChecks with FormatInstances {
   import Arbitraries._
 
   checkAll("Format", InvariantTests[Format].invariant[String, String, String])
 }
 
 class ReadsInstancesSpec
-    extends FunSuite with Discipline with ScalaCheckDrivenPropertyChecks with ReadsInstances {
+    extends AnyFunSuite with FunSuiteDiscipline with ScalaCheckDrivenPropertyChecks with ReadsInstances {
   import Arbitraries._
 
   checkAll("Reads", FunctorTests[Reads].functor[String, String, String])
@@ -24,7 +24,7 @@ class ReadsInstancesSpec
 }
 
 class WritesInstancesSpec
-    extends FunSuite with Discipline with ScalaCheckDrivenPropertyChecks with WritesInstances {
+    extends AnyFunSuite with FunSuiteDiscipline with ScalaCheckDrivenPropertyChecks with WritesInstances {
   import Arbitraries._
 
   checkAll("Reads", ContravariantTests[Writes].contravariant[String, String, String])
