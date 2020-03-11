@@ -2,7 +2,7 @@ lazy val root = (project in file("."))
   .settings(
     organization := "com.iravid",
     name := "play-json-cats",
-    version := "1.1.0",
+    version := "1.1.1",
     scalaVersion := "2.13.1",
     crossScalaVersions := Seq("2.12.10", "2.13.1"),
     libraryDependencies ++= Seq(
